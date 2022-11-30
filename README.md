@@ -64,29 +64,29 @@ ssafy 1학기 최종프로젝트
 
 ## 실행 화면
 
-판매자 및 구매자 서비스 페이지 :
+### 판매자 및 구매자 서비스 페이지 :
 
-메인 페이지
+### 메인 페이지
 ![main](https://user-images.githubusercontent.com/62275698/204698561-a3c674bf-61e5-403e-8442-7f601776c6e1.gif)
 
-공지사항
+### 공지사항
 ![notice](https://user-images.githubusercontent.com/62275698/204702175-4b3b5cab-7cbc-45b4-a63f-4a9800c22b65.gif)
 
-로그인 
+### 로그인 
 ![login](https://user-images.githubusercontent.com/62275698/204698830-d8037b28-c647-4687-a16d-fa14a6bf2e70.gif)
 
-지도 & 매물 찾기
+### 지도 & 매물 찾기
 ![map](https://user-images.githubusercontent.com/62275698/204699030-e46b3bb5-b8c6-4899-b7aa-4af0260e39b5.gif)
 
-상세 페이지 & 관심(찜) 목록
+### 상세 페이지 & 관심(찜) 목록
 ![detail](https://user-images.githubusercontent.com/62275698/204700408-d49ae59e-52dc-49b7-90cd-cbe1e8c8be36.gif)
 
-마이페이지
+### 마이페이지
 ![Image Pasted at 2022-11-24 21-46](https://user-images.githubusercontent.com/62275698/204700635-a69bf645-a6f7-480b-af1c-bc072d4d7348.png)
 
-판매자 로그인 & 매물 관리
+### 판매자 로그인 & 매물 관리
 ![seller](https://user-images.githubusercontent.com/62275698/204702033-e31a3cf3-b0f6-4ebe-be2b-d7f57c8bc829.gif)
 
-판매자 매물 보기 및 등록
+### 판매자 매물 검색 및 등록
 ![seller2](https://user-images.githubusercontent.com/62275698/204702090-2563315e-4330-45f1-9797-f3037994434f.gif)
 
