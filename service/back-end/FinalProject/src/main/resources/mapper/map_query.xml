@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.map.dao.MapDao">
+	
+	<select id="houseList" parameterType="map" resultType="com.mycom.myapp.map.dto.HouseTotalDto">
+	
+	select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor, 
+		hd.dealAmount dealAmount, hi.lat lat, hi.lng lng, gc.name gu, hd.onSale onSale, u.USER_NAME seller, hd.houseContent houseContent
+		from housedeal as hd, houseinfo as hi ,gugun_code as gc, sido_code as sc , users as u
+		where hd.onSale > 0 and hd.code = #{code} and hd.dong = #{dong} and (hd.house_no = hi.no and hd.code = gc.code) and u.USER_SEQ = hd.onSale;
+	
+		<!-- select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor, 
+		hd.dealAmount dealAmount, hi.lat lat, hi.lng lng, gc.name gu, hd.onSale onSale, u.USER_NAME seller
+		from housedeal as hd, houseinfo as hi ,gugun_code as gc, sido_code as sc , users as u
+		where hd.onSale > 0 and (hd.house_no = hi.no and hd.code = gc.code) and u.USER_SEQ = hd.onSale; -->
+	 
+	</select>
+	
+	<select id="houseListSearchWord" parameterType="map" resultType="com.mycom.myapp.map.dto.HouseTotalDto">
+	
+	select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor, 
+		hd.dealAmount dealAmount, hi.lat lat, hi.lng lng, gc.name gu, hd.onSale onSale, u.USER_NAME seller, hd.houseContent houseContent
+		from housedeal as hd, houseinfo as hi ,gugun_code as gc, sido_code as sc , users as u
+		where hd.onSale > 0 and hd.code = #{code} and hd.dong = #{dong} and (hd.house_no = hi.no and hd.code = gc.code) and u.USER_SEQ = hd.onSale
+		and hd.AptName like concat('%' , #{searchWord},'%')
+	</select>
+	
+	<select id="houseListTotalCnt" resultType="int">
+		 select count(*) from housedeal where onSale > 0 and code = #{code} and dong = #{dong}  
+	</select>
+	
+	<select id="favoriteListTotalCnt" resultType="int">
+		 select count(distinct no ) cnt from housedeal where no in ( SELECT DEAL_NO FROM favorite where user_seq = #{userSeq} ) and onSale > 0;  
+	</select>
+	
+	<select id="houseListSearchWordTotalCnt" parameterType="map" resultType="int">
+		select count(*) from housedeal where onSale > 0 and code = #{code} and dong = #{dong} and AptName like concat('%' , #{searchWord},'%')
+	</select>
+	
+	<select id="sidoList" resultType="com.mycom.myapp.map.dto.SidoCodeDto">
+	select code, name from sido_code order by name
+	</select>
+	
+	<select id="gugunList" parameterType="string" resultType="com.mycom.myapp.map.dto.GugunCodeDto">
+	select code, name from gugun_code where sido_code = #{sidoCode} order by name
+	</select>
+	
+	<select id="dongList" parameterType="string" resultType="com.mycom.myapp.map.dto.DongCodeDto">
+	select code, name from dong_code where gugun_code = #{gugunCode} order by name
+	</select>
+	
+	<select id="resultDongSearchList" parameterType="hashmap" resultType="com.mycom.myapp.map.dto.HouseinfoDto">
+	
+	select no, AptName, sc.name si, gc.name gu, dong, jibun, buildYear, lat, lng, img 
+	            from houseinfo hi, sido_code sc, gugun_code gc 
+	            where hi.code = gc.code and gc.sido_code = sc.code 
+	            and hi.code = #{code} and hi.dong = #{name} 
+	            limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="dongListTotalCnt" parameterType="string" resultType="int">
+		select count(*) cnt from houseinfo where code = #{code} and dong = #{dong}
+	</select>
+	
+	<select id="favoriteHouseList" parameterType="map" resultType="com.mycom.myapp.map.dto.HouseTotalDto">
+	
+		select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor, 
+		hd.dealAmount dealAmount, hi.lat lat, hi.lng lng, gc.name gu, hd.onSale onSale, u.USER_NAME seller, hd.houseContent houseContent
+		from housedeal as hd, houseinfo as hi ,gugun_code as gc, sido_code as sc , users as u
+		where hd.no in ( SELECT DEAL_NO FROM favorite where user_seq = #{userSeq} ) and hd.onSale > 0 and (hd.house_no = hi.no and hd.code = gc.code) and u.USER_SEQ = hd.onSale
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="getFavorite" parameterType="map" resultType="int">
+		select count(*) cnt from favorite where DEAL_NO = #{no} and USER_SEQ = #{userSeq}
+	</select>
+	
+	<insert id="addFavorite" parameterType="map">
+		insert into favorite(DEAL_NO, USER_SEQ) values (#{no}, #{userSeq});
+	</insert>
+	
+	<delete id="deleteFavorite" parameterType="map">
+		delete from favorite where DEAL_NO = #{no} and USER_SEQ = #{userSeq}
+	</delete>
+	
+	<select id="sellingHouseList" parameterType="map" resultType="com.mycom.myapp.map.dto.HouseTotalDto">
+	
+		select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor,
+		hd.dealAmount dealAmount, gc.name gu, hd.onSale onSale, hd.houseContent houseContent
+		from housedeal as hd ,gugun_code as gc, sido_code as sc 
+		where hd.onSale =  #{userSeq} and hd.code = gc.code
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="sellingHouseListTotalCnt" resultType="int">
+		 select count(*) from housedeal where onSale = #{userSeq};
+	</select>
+	
+	<select id="sellingHouseListMap" parameterType="map" resultType="com.mycom.myapp.map.dto.HouseTotalDto">
+	
+		select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor, 
+		hd.dealAmount dealAmount, hi.lat lat, hi.lng lng, gc.name gu, hd.onSale onSale, u.USER_NAME seller, hd.houseContent houseContent
+		from housedeal as hd, houseinfo as hi ,gugun_code as gc, sido_code as sc , users as u
+		where hd.onSale = #{userSeq} and hd.code = #{code} and hd.dong = #{dong} and (hd.house_no = hi.no and hd.code = gc.code) and u.USER_SEQ = hd.onSale
+	</select>
+	
+	<select id="sellingHouseListMapCount" resultType="int">
+		 select count( *) from housedeal where onSale = #{userSeq} and code = #{code} and dong = #{dong}
+	</select>
+	
+	<select id="sellingHouseListMapSearchWord" parameterType="map" resultType="com.mycom.myapp.map.dto.HouseTotalDto">
+	
+		select distinct hd.no no, hd.dong dong, hd.AptName AptName, hd.area area, hd.buildYear buildYear, hd.jibun jibun, hd.floor floor, 
+		hd.dealAmount dealAmount, hi.lat lat, hi.lng lng, gc.name gu, hd.onSale onSale, hd.houseContent houseContent
+		from housedeal as hd, houseinfo as hi ,gugun_code as gc, sido_code as sc , users as u
+		where hd.onSale = #{userSeq} and hd.code = #{code} and hd.dong = #{dong} and (hd.house_no = hi.no and hd.code = gc.code) and hd.AptName like concat('%' , #{searchWord},'%')
+	</select>
+	
+	<select id="sellingHouseListMapSearchWordCount" resultType="int">
+		 select count( *) from housedeal where onSale = #{userSeq} and code = #{code} and dong = #{dong} and AptName like concat('%' , #{searchWord},'%')
+	</select>
+	
+	<update id="houseUpdate" parameterType="map">
+		update housedeal set floor = #{floor}, dealAmount = #{dealAmount}, area = #{area}, onSale = #{userSeq} where no = #{houseId};
+	</update>
+	
+	<delete id="houseFileDelete" parameterType="int">
+		delete from house_file where house_id = #{houseId}
+	</delete>
+	
+	<insert id="houseFileInsert" parameterType="com.mycom.myapp.map.dto.HouseFileDto">
+		insert into house_file(house_Id, file_name, file_size, file_content_type, file_url)
+		values (#{houseId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl});
+	</insert>
+	
+	<select id="houseFileUrlDeleteList" parameterType="int" resultType="String">
+		select FILE_URL from house_file where house_id = #{houseId};
+	</select>
+	
+</mapper>

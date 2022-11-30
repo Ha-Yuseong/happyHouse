@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mycom.myapp.dao.FakeDao">
+
+	<select id="fakeList" parameterType="map" resultType="com.mycom.myapp.dto.FakeDto">
+	SELECT f.fake_id, f.user_id, f.seller_id, f.title, f.content, f.reg_dt , u.user_name , f.deal_id ,f.is_done
+	from fake f join  users u
+	on f.user_id = u.user_seq
+	where is_done = 0
+	limit #{limit} offset #{offset}
+	</select>
+	
+	<update id="fakeUpdate" parameterType="int">
+		UPDATE fake
+		  SET is_done  = 1
+		 WHERE fake_id = #{fakeId}
+	</update>
+
+</mapper>
