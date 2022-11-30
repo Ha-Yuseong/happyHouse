@@ -88,5 +88,7 @@ ssafy 1학기 최종프로젝트
 ![seller](https://user-images.githubusercontent.com/62275698/204702033-e31a3cf3-b0f6-4ebe-be2b-d7f57c8bc829.gif)<br><br>
 
 ### 판매자 매물 검색 및 등록
-![seller2](https://user-images.githubusercontent.com/62275698/204702090-2563315e-4330-45f1-9797-f3037994434f.gif)<br><br>
+![seller2](https://user-images.githubusercontent.com/62275698/204702090-2563315e-4330-45f1-9797-f3037994434f.gif)<br><br><br><br>
 
+### 관리자 페이지 :
+![admin](https://user-images.githubusercontent.com/62275698/204703526-4117ab1d-0bac-404b-8fad-fcb5cafcbc1b.gif)
